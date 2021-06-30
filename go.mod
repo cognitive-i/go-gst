@@ -2,7 +2,7 @@ module github.com/tinyzimmer/go-gst
 
 go 1.16
 
-replace github.com/tinyzimmer/go-glib => github.com/cognitive-i/go-glib v0.0.23-PATCHED
+replace github.com/tinyzimmer/go-glib => github.com/cognitive-i/go-glib v0.0.23-PATCHED1
 
 require (
 	github.com/mattn/go-pointer v0.0.1
