@@ -1,7 +1,6 @@
 #include "gst.go.h"
 
 GType                  objectGType            (GObject *obj) { return G_OBJECT_TYPE(obj); };
-GObjectClass *         toGObjectClass         (void *p)      { return (G_OBJECT_CLASS(p)); }
 
 GstAllocator *         toGstAllocator         (void *p) { return (GST_ALLOCATOR_CAST(p)); }
 GstBin *               toGstBin               (void *p) { return (GST_BIN(p)); }
@@ -146,7 +145,6 @@ GstTagList *     makeTagListWritable   (GstTagList * tagList)   { return gst_tag
 
 /* Object Utilities */
 
-GObjectClass *  getGObjectClass         (void * p)                               { return (G_OBJECT_GET_CLASS(p)); }
 gboolean        gstElementIsURIHandler  (GstElement * elem)                      { return (GST_IS_URI_HANDLER(elem)); }
 gboolean        gstObjectFlagIsSet      (GstObject * obj, GstElementFlags flags) { return (GST_OBJECT_FLAG_IS_SET(obj, flags)); }
 

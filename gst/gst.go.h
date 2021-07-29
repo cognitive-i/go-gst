@@ -15,7 +15,6 @@ typedef struct _PadDestroyNotifyInfo {
 */
 
 extern GType                  objectGType            (GObject *obj);
-extern GObjectClass *         toGObjectClass         (void *p);
 
 extern GstAllocator *         toGstAllocator         (void *p);
 extern GstBin *               toGstBin               (void *p);
@@ -118,7 +117,6 @@ extern GstTagList *     makeTagListWritable   (GstTagList * tagList);
 
 /* Object Utilities */
 
-extern GObjectClass *  getGObjectClass         (void * p);
 extern gboolean        gstElementIsURIHandler  (GstElement * elem);
 extern gboolean        gstObjectFlagIsSet      (GstObject * obj, GstElementFlags flags);
 
