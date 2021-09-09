@@ -48,6 +48,23 @@ func NewElementMany(elemNames ...string) ([]*Element, error) {
 	return elems, nil
 }
 
+func NewElementFromUri(uriType URIType, uri string, name string) (*Element, error) {
+	cUriType := (C.GstURIType)(uriType)
+	cUri := C.CString(uri)
+	defer C.free(unsafe.Pointer(cUri))
+
+	var cName *C.char
+	if name != "" {
+		cName = C.CString(name)
+		defer C.free(unsafe.Pointer(cName))
+	}
+
+	if elem := C.gst_element_make_from_uri(cUriType, cUri, cName, nil); elem != nil {
+		return wrapElement(glib.TransferNone(unsafe.Pointer(elem))), nil
+	}
+	return nil, fmt.Errorf("could not create for URI: %s", uri)
+}
+
 // ElementFactory wraps the GstElementFactory
 type ElementFactory struct{ *PluginFeature }
 
