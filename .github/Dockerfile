@@ -14,10 +14,10 @@
 #   ENTRYPOINT ["/app"]
 #
 ARG GO_VERSION=1.15
-FROM ubuntu:20.10
+FROM ubuntu:22.04
 
 RUN mkdir -p /build \
-    && apt-get update \
+    && apt-get update --fix-missing \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         golang git make curl \
         libgstreamer1.0 libgstreamer1.0-dev \
