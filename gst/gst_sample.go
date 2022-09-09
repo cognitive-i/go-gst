@@ -1,6 +1,9 @@
 package gst
 
 // #include "gst.go.h"
+// GstSample* new_empty_sample() {
+//   return gst_sample_new(NULL, NULL, NULL, NULL);
+// }
 import "C"
 
 import (
@@ -30,6 +33,12 @@ func FromGstSampleUnsafeFull(sample unsafe.Pointer) *Sample {
 	return s
 }
 
+// NewEmptySample creates an empty GstSample.
+// This is meant for test usage only.  Tests in Go are not permitted to use CGO directly
+func NewEmptySample() *Sample {
+	return FromGstSampleUnsafeFull(unsafe.Pointer(C.new_empty_sample()))
+}
+
 // Instance returns the underlying *GstSample instance.
 func (s *Sample) Instance() *C.GstSample { return C.toGstSample(unsafe.Pointer(s.sample)) }
 
@@ -46,12 +55,18 @@ func (s *Sample) Copy() *Sample {
 
 // GetBuffer returns the buffer inside this sample.
 func (s *Sample) GetBuffer() *Buffer {
-	return FromGstBufferUnsafeNone(unsafe.Pointer(C.gst_sample_get_buffer((*C.GstSample)(s.Instance()))))
+	if p := unsafe.Pointer(C.gst_sample_get_buffer((*C.GstSample)(s.Instance()))); p != C.NULL {
+		return FromGstBufferUnsafeNone(p)
+	}
+	return nil
 }
 
 // GetBufferList gets the buffer list associated with this sample.
 func (s *Sample) GetBufferList() *BufferList {
-	return FromGstBufferListUnsafeNone(unsafe.Pointer(C.gst_sample_get_buffer_list(s.Instance())))
+	if p := unsafe.Pointer(C.gst_sample_get_buffer_list(s.Instance())); p != C.NULL {
+		return FromGstBufferListUnsafeNone(p)
+	}
+	return nil
 }
 
 // GetCaps returns the caps associated with this sample. Take a ref if you need to hold on to them
